@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: flower-client
+  labels:
+    app: flower-client
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flower-client
+  serviceName: flower-client
+  template:
+    metadata:
+      labels:
+        app: flower-client
+    spec:
+      containers:
+      - name: kubeflower
+        image: kubeflower:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            CLIENT_ID=$(echo ${POD_NAME} | sed 's/.*-\([0-9]\+\)$/\1/') && \
+            python src/federated_yolo_client.py --cid ${CLIENT_ID} --server 10.244.0.8 --port 8080 --data /app/datasets/BrainTumorYolov8_subset_federated/client_${CLIENT_ID}/data.yaml
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - containerPort: 30051
+        volumeMounts:
+        - name: local-storage
+          mountPath: /app/datasets
+        resources:
+          requests:
+            memory: "5Gi"  # Memory request to guarantee for the container
+          limits: 
+            memory: "16Gi"  # Increase memory limit if needed
+      volumes:
+      - name: local-storage
+        hostPath:
+          path: /data
+          type: Directory

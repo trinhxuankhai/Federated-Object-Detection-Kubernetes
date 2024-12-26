@@ -1,0 +1,11 @@
+socket_vmnet/
+datasets/
+*/data/
+__pycache__/
+*.py[cod]
+*.tar
+logs/
+runs/
+.*/
+yolo11n.pt
+yolov8n.pt

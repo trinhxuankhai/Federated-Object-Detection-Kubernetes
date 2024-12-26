@@ -1,0 +1,11 @@
+pandas
+numpy
+flwr
+torch
+torchvision
+torchaudio
+optuna
+opacus
+matplotlib
+kagglehub
+ultralytics
