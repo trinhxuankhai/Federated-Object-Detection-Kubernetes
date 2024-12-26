@@ -100,3 +100,7 @@ To deploy this architecture you need to:
 
     minikube stop
     ```
+
+## Acknowledgements
+
+I would like to express my gratitude to the developers and contributors of [KubeFlower](https://github.com/hpn-bristol/kubeFlower) for providing an invaluable tool in the field of Federated Learning. Your work has greatly contributed to our research and development efforts.
